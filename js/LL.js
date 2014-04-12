@@ -20,7 +20,7 @@
           console.log(e);
         };
     </script> */
-    
+
 var LL = function(){
   var that= this;
   // Get the canvas element from the HTML document
@@ -30,6 +30,8 @@ var LL = function(){
   // Get the canvas width and height for scaling
   var width  = canvas.width,
       height = canvas.height;
+
+  var time = new Date().getTime() / 1000;
 
   // Transform Leap coordinates to scene coordinates
   //   leapPosition is a [ x, y, z ] array
@@ -56,8 +58,12 @@ var LL = function(){
   // Circle gesture event listener
   controller.on( 'circle', function( circle, frame ) {
     if (circle.state == 'start' || circle.state == 'stop') {
-      if (circle.state == 'start')
+      var curr = new Date().getTime() / 1000;
+      if (circle.state == 'start' && curr - time > .5)
+      {
         that.handleCircle({direction: 'circle'});
+        time = new Date().getTime() / 1000;
+      }
       //console.log(circle.state, circle.type, circle.id,
         //          'radius:', circle.radius);
     }
@@ -71,7 +77,8 @@ var LL = function(){
       var dirStr = dir[0] > 0.8 ? 'right' : dir[0] < -0.8 ? 'left'
                  : dir[1] > 0.8 ? 'up'    : dir[1] < -0.8 ? 'down'
                  : dir[2] > 0.8 ? 'backward' : 'forward';
-      if (swipe.state == 'start')
+      var curr = new Date().getTime() / 1000;
+      if (swipe.state == 'start' &&  curr - time > .5)
       {
         if (dirStr == 'right')
           that.handleSwipeRight({direction: 'right'}); 
@@ -85,6 +92,7 @@ var LL = function(){
           that.handleSwipeForward({direction: 'forward'});
         else if (dirStr == 'backward')
           that.handleSwipeBackward({direction: 'backward'});
+        time = new Date().getTime() / 1000;
       }
       //console.log(swipe.state, swipe.type, swipe.id, dirStr,
         //          'direction:', dir);
