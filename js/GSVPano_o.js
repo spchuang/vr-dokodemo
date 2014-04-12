@@ -119,6 +119,17 @@ GSVPANO.PanoLoader = function (parameters) {
 		}
 	};
 
+	this.load_hyperlapse = function (location, cache) {
+		var self = this;
+		cache = cache || true;
+		if ((typeof location) === 'string') {
+			_panoClient.getPanoramaById(location, function(result, status){self.loadCB(result, status, location, cache)})
+		}
+		else {
+			_panoClient.getPanoramaByLocation(location, 50,  function(result, status){self.loadCB(result, status, location, cache);})
+		}
+	};
+
 	this.setZoom = function( z ) {
 		_zoom = z;
 		this.adaptTextureToZoom();
