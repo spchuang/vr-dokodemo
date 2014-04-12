@@ -304,8 +304,8 @@ function initGoogleMap() {
     });
   });
 
-  marker = new google.maps.Marker({ position: currentLocation, map: gmap2 });
-  marker.setMap( gmap2 );
+  marker2 = new google.maps.Marker({ position: currentLocation, map: gmap2 });
+  marker2.setMap( gmap2 );
 }
 
 

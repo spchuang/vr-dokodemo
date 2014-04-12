@@ -17,9 +17,23 @@ body {
 }
 
 #map {
-  height: 300px;
+  height: 200px;
 }
 
 #map2 {
-  height: 300px;
+  height: 200px;
+}
+
+.speechInput
+{
+  color:transparent;
+  background-color:transparent;
+  border:1px;
+  width:10px;
+  cursor: pointer;
+    
+  -webkit-transform: scale(2.0, 2.0);
+  -moz-transform: scale(2.0, 2.0);
+  -ms-transform: scale(2.0, 2.0);
+  transform: scale(2.0, 2.0);
 }
