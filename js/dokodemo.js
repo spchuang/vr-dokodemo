@@ -46,6 +46,7 @@ vr.load(function(error) {
   vr_state = new vr.State();
 });
 
+
 // Utility function
 function angleRangeDeg(angle) {
   while (angle >= 360) angle -=360;
@@ -73,6 +74,7 @@ function updateCameraRotation() {
   currHeading = angleRangeDeg(THREE.Math.radToDeg(-headingVector.y));
   //console.log('HEAD', currHeading);
 }
+
 
 function initWebGL() {
   // create scene
@@ -245,7 +247,6 @@ function initPano() {
 
     if (window.history) {
       var newUrl = '/oculusstreetview/?lat='+this.location.latLng.lat()+'&lng='+this.location.latLng.lng();
-      newUrl += USE_TRACKER ? '&sock='+escape(WEBSOCKET_ADDR.slice(5)) : '';
       newUrl += '&q='+QUALITY;
       newUrl += '&s='+$('#settings').is(':visible');
       newUrl += '&heading='+currHeading;
@@ -350,7 +351,6 @@ $(document).ready(function() {
   params = getParams();
   if (params.lat !== undefined) DEFAULT_LOCATION.lat = params.lat;
   if (params.lng !== undefined) DEFAULT_LOCATION.lng = params.lng;
-  if (params.sock !== undefined) {WEBSOCKET_ADDR = 'ws://'+params.sock; USE_TRACKER = true;}
   if (params.q !== undefined) QUALITY = params.q;
   if (params.s !== undefined) SHOW_SETTINGS = params.s !== "false";
   if (params.heading !== undefined) {
@@ -360,10 +360,10 @@ $(document).ready(function() {
 
 
   WIDTH = window.innerWidth; HEIGHT = window.innerHeight;
-
   initWebGL();
   initControls();
   initPano();
+
   initGoogleMap();
 
   // Load default location
