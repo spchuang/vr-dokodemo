@@ -263,6 +263,7 @@ function initGoogleMap() {
     mapTypeId: google.maps.MapTypeId.HYBRID,
     streetViewControl: true
   });
+
   google.maps.event.addListener(gmap, 'click', function(event) {
     panoLoader.load(event.latLng);
   });
@@ -280,6 +281,31 @@ function initGoogleMap() {
 
   marker = new google.maps.Marker({ position: currentLocation, map: gmap });
   marker.setMap( gmap );
+
+  gmap2 = new google.maps.Map(document.getElementById("map2"), {
+    zoom: 14,
+    center: currentLocation,
+    mapTypeId: google.maps.MapTypeId.HYBRID,
+    streetViewControl: true
+  });
+  
+  google.maps.event.addListener(gmap2, 'click', function(event) {
+    panoLoader.load(event.latLng);
+  });
+
+  geocoder = new google.maps.Geocoder();
+
+  $('#mapsearch2').change(function() {
+      geocoder.geocode( { 'address': $('#mapsearch2').val()}, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        gmap2.setCenter(results[0].geometry.location);
+        panoLoader.load( results[0].geometry.location );
+      }
+    });
+  });
+
+  marker = new google.maps.Marker({ position: currentLocation, map: gmap2 });
+  marker.setMap( gmap2 );
 }
 
 
