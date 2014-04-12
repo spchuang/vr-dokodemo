@@ -41,6 +41,8 @@ var HMDRotation = new THREE.Quaternion();
 var BaseRotation = new THREE.Quaternion();
 var BaseRotationEuler = new THREE.Vector3();
 
+var renderer, projSphere;
+var hyperlapse;
 var vr_state;
 vr.load(function(error) {
   vr_state = new vr.State();
@@ -371,6 +373,76 @@ function getParams() {
   return params;
 }
 
+function initHyperlapse()
+{
+    hyperlapse = new Hyperlapse(renderer, projSphere, {
+      lookat: new google.maps.LatLng(37.81409525128964,-122.4775045005249),
+      zoom: 1,
+      use_lookat: true,
+      elevation: 50
+    });
+
+    hyperlapse.onError = function(e) {
+      console.log(e);
+    };
+
+    hyperlapse.onRouteComplete = function(e) {
+      console.log("ROUTE COMPLETE");
+      hyperlapse.load();
+    };
+
+    hyperlapse.onLoadComplete = function(e) {
+      console.log(" onLoadComplete");
+      hyperlapse.play();
+    };
+
+    // Google Maps API stuff here...
+    /*
+    var directions_service = new google.maps.DirectionsService();
+
+    var route = {
+      request:{
+        origin: new google.maps.LatLng(37.816480000000006,-122.47825,37),
+        destination: new google.maps.LatLng(37.81195,-122.47773000000001),
+        travelMode: google.maps.DirectionsTravelMode.DRIVING
+      }
+    };
+
+    directions_service.route(route.request, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        hyperlapse.generate( {route:response} );
+      } else {
+        console.log(status);
+      }
+    });
+*/
+
+}
+
+function startTimelapse()
+{
+  console.log("TEST");
+  
+  // Google Maps API stuff here...
+  var directions_service = new google.maps.DirectionsService();
+
+  var route = {
+    request:{
+      origin: new google.maps.LatLng(37.816480000000006,-122.47825,37),
+      destination: new google.maps.LatLng(37.81195,-122.47773000000001),
+      travelMode: google.maps.DirectionsTravelMode.DRIVING
+    }
+  };
+
+  directions_service.route(route.request, function(response, status) {
+    if (status == google.maps.DirectionsStatus.OK) {
+      hyperlapse.generate( {route:response} );
+    } else {
+      console.log(status);
+    }
+  });
+}
+
 $(document).ready(function() {
 
   // Read parameters
@@ -386,11 +458,22 @@ $(document).ready(function() {
 
 
   WIDTH = window.innerWidth; HEIGHT = window.innerHeight;
+  
   initWebGL();
+  initHyperlapse();
   initControls();
   initPano();
 
   initGoogleMap();
+
+  $(document).keydown(function(e){
+    switch(e.keyCode) {
+      case 90:
+        startTimelapse();
+        break;
+      
+    }
+  });
 
   // Load default location
   panoLoader.load( new google.maps.LatLng( DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng ) );
