@@ -20,7 +20,16 @@
         <!--<script type="text/javascript" src="js/osv2.hmd.js"></script>!-->
         <script type="text/javascript" src="js/dokodemo.js"></script>
 
-
+        <!-- Yelp API -->
+        <script type="text/javascript" src="js/yelp.js"></script>
+        
+        <!-- Voice Search API Required JS -->
+        <script type="text/javascript" src="js/search.js"></script>
+        <script type="text/javascript" src="/js/async.min.js"></script>
+        <SCRIPT type="text/javascript" src="/js/soundex.js" /></SCRIPT>
+        <SCRIPT type="text/javascript" src="/js/levenshtein.js" /></SCRIPT>
+        <SCRIPT type="text/javascript" src="/js/softcompare.js" /></SCRIPT>
+        <SCRIPT type="text/javascript" src="/js/swfobject.js"></SCRIPT> 
     </head>
 
     <body>
@@ -40,6 +49,21 @@
                     </div>
                 </div>
             </div>
+            <div id="mapcontainer" class="span4 well">
+                <div class="row-fluid">
+                    <div id="map2" class="span12"></div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span12">
+                        <center>
+                            <form class="form-inline" onsubmit="return false;">
+                                <label>Search <input id="mapsearch2" type="text"></label>
+                            </form>
+                        </center>
+                    </div>
+                </div>
+            </div>
+            <!--
             <div id="settings" class="span4 well">
                 <h2>Requirements</h2>
                 <p>Be sure to install <a href="https://github.com/benvanik/vr.js">benvanik's vr.js</a></p>
@@ -60,6 +84,7 @@
                 <p><a href="http://oculusstreetview.eu.pn/">Oculus Street View</a> originally by <a href="mailto:lsiciliano@web.de?subject=Oculus JS Demo&body=Your demo is cool!">troffmo5</a></p>
                 <p>Modified by <a href="http://twitter.com/steeve">@steeve</a></p>
             </div>
+            -->
         </div>
         
     </body>
