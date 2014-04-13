@@ -66,7 +66,6 @@ GSVPANO_HYPERLAPSE.PanoLoader = function (parameters) {
 	this.composePanorama = function (panoId) {
 	
 		this.setProgress(0);
-		console.log('Loading panorama for zoom ' + _zoom + '...');
 		
 		var w = (_zoom==3) ? 7 : Math.pow(2, _zoom),
 			h = Math.pow(2, _zoom - 1),
@@ -96,7 +95,7 @@ GSVPANO_HYPERLAPSE.PanoLoader = function (parameters) {
 	
 	this.load = function (location, callback) {
 	
-		console.log('Load for', location);
+
 		var self = this;
 		_panoClient.getPanoramaByLocation(location, 50, function (result, status) {
 			if (status === google.maps.StreetViewStatus.OK) {
