@@ -537,10 +537,29 @@ function startTimelapse(currentLocation, finalDestination) //huehuehuehuehue
 
 function initVoice()
 {
+  var phrase;
   recognition = new webkitSpeechRecognition();
   recognition.onresult = function(event) { 
-    var phrase = event.results[0][0].transcript;
+    phrase = event.results[0][0].transcript;
     console.log(phrase);
+    voiceFunctions(phrase);
+
+  }
+  // recognition.start();
+
+
+  console.log("init voice");
+  $('#tags').on('webkitspeechchange', function(e) {
+      
+      phrase = $('#tags').val();
+      $('#tags2').val( $('#tags').val());
+      console.log($('#tags').val());
+      voiceFunctions(phrase);
+       
+  });
+}
+
+function voiceFunctions(phrase) {
 
     // Play Music
         if (phrase.startsWithI(gPlayCommand))
@@ -676,20 +695,22 @@ function initVoice()
   }
   //recognition.start();
 
-
-/*
-  console.log("init voice");
-  $('#tags').on('webkitspeechchange', function(e) {
-      
-      var phrase = $('#tags').val();
-      $('#tags2').val( $('#tags').val());
-      console.log($('#tags').val());
-       
-  });
-*/
-}
-
 function startListening() {
+  $( "#desc1" ).fadeOut( "slow", function() {
+    $("#desc1").html("Please Speak");
+  });
+
+    $( "#desc2" ).fadeOut( "slow", function() {
+        $("#desc2").html("Speak");
+     });
+
+    $( "#desc1" ).fadeIn( "slow", function() {
+    $("#desc1").html("Please Speak");
+  });
+
+    $( "#desc2" ).fadeIn( "slow", function() {
+        $("#desc2").html("Speak");
+     });
   recognition.start();
 }
 
