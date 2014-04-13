@@ -7,7 +7,7 @@
 // Parameters
 // ----------------------------------------------
 var QUALITY = 3;
-var DEFAULT_LOCATION = { lat: 48.858854, lng: 2.2932409999999663 };
+var DEFAULT_LOCATION = { 34.0722, 118.4441 };
 var USE_TRACKER = false;
 var MOVING_MOUSE = false;
 var MOUSE_SPEED = 0.005;
