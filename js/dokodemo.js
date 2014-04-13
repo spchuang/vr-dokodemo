@@ -270,6 +270,7 @@ function initPano() {
     marker = new google.maps.Marker({ position: this.location.latLng, map: gmap });
     marker.setMap( gmap );
 
+    /*
     if (window.history) {
       var newUrl = '/oculusstreetview/?lat='+this.location.latLng.lat()+'&lng='+this.location.latLng.lng();
       newUrl += '&q='+QUALITY;
@@ -277,6 +278,7 @@ function initPano() {
       newUrl += '&heading='+currHeading;
       window.history.pushState('','',newUrl);
     }
+    */
   };
 }
 
@@ -446,6 +448,29 @@ function startTimelapse()
   });
 }
 
+
+function initVoice()
+{
+  console.log("init voice");
+  /*
+  var voiceInput = $("#speechInput1");
+  voiceInput.on('webkitspeechchange', function() {
+      console.log("You have spoken");
+  });
+  voiceInput[0].onwebkitspeechchange = function(){
+
+    console.log("FUCK");
+  }
+  console.log(voiceInput);
+  */
+
+  $('#speechInput1').on('webkitspeechchange', function() {
+      alert("FUCK");
+
+  });
+
+}
+
 $(document).ready(function() {
 
   // Read parameters
@@ -464,11 +489,13 @@ $(document).ready(function() {
   
   initWebGL();
   initHyperlapse();
+
   initControls();
   initLeap();
   initPano();
 
   initGoogleMap();
+  initVoice();
 
   $(document).keydown(function(e){
     switch(e.keyCode) {
