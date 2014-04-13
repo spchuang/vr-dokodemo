@@ -19,6 +19,12 @@
         leap.onCircle = function(e){
           console.log(e);
         };
+        leap.onSwipeForward = function(e){
+          console.log(e);
+        }
+        leap.onSwipeBackward = function(e){
+          console.log(e);
+        }
     </script> */
 
 var LL = function(){
