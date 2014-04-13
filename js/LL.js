@@ -66,7 +66,7 @@ var LL = function(){
                  : dir[1] > 0.8 ? 'up'    : dir[1] < -0.8 ? 'down'
                  : dir[2] > 0.8 ? 'backward' : 'forward';
       var curr = new Date().getTime() / 1000;
-      if (swipe.state == 'start' &&  curr - time > 1.5)
+      if (swipe.state == 'start' &&  curr - time > 1.0)
       {
         if (dirStr == 'right')
           that.handleSwipeRight({direction: 'right'}); 
