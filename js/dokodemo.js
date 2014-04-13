@@ -211,6 +211,29 @@ function initControls(){
 
 }
 
+function initLeap()
+{
+  var leap = new LL();
+  leap.onSwipeRight = function(e){
+    console.log(e);
+    console.log("move next");
+    moveToNextPlace();
+  };
+  leap.onSwipeLeft = function(e){
+    console.log(e);
+  };
+  leap.onSwipeUp = function(e){
+    console.log(e);
+  };
+  leap.onSwipeDown = function(e){
+    console.log(e);
+  };
+  leap.onCircle = function(e){
+    console.log(e);
+  };
+
+}
+
 function initPano() {
   panoLoader = new GSVPANO.PanoLoader();
   panoLoader.setZoom(QUALITY);
@@ -395,29 +418,9 @@ function initHyperlapse()
       console.log(" onLoadComplete");
       hyperlapse.play();
     };
-
-    // Google Maps API stuff here...
-    /*
-    var directions_service = new google.maps.DirectionsService();
-
-    var route = {
-      request:{
-        origin: new google.maps.LatLng(37.816480000000006,-122.47825,37),
-        destination: new google.maps.LatLng(37.81195,-122.47773000000001),
-        travelMode: google.maps.DirectionsTravelMode.DRIVING
-      }
-    };
-
-    directions_service.route(route.request, function(response, status) {
-      if (status == google.maps.DirectionsStatus.OK) {
-        hyperlapse.generate( {route:response} );
-      } else {
-        console.log(status);
-      }
-    });
-*/
-
 }
+
+
 
 function startTimelapse()
 {
@@ -462,6 +465,7 @@ $(document).ready(function() {
   initWebGL();
   initHyperlapse();
   initControls();
+  initLeap();
   initPano();
 
   initGoogleMap();

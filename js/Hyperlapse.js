@@ -193,7 +193,7 @@ var Hyperlapse = function(renderer, mesh, params) {
   */
   _renderer = renderer;
   _mesh 	= mesh;
-  console.log(_mesh);
+
   /*
 
   _renderer = isWebGL() ? new THREE.WebGLRenderer() : new THREE.CanvasRenderer();
