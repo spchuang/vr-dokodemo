@@ -75,6 +75,9 @@ function getYelpResults() {
                         console.log(address);
                         console.log(data.businesses[i].location.city);
 
+                        $("#desc1").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
+                        $("#desc2").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
+
                         geocoder.geocode( {'address': address}, function(results, status){
                             console.log(status);
                             //teleport and move map
@@ -94,10 +97,6 @@ function getYelpResults() {
                                 map: gmap2,
                                 title: data.businesses[i].name
                             });
-
-                            $("#desc1").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
-                            $("#desc2").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
-                
                         });
                     }
                     gmap.setZoom(7);
