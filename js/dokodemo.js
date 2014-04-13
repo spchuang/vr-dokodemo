@@ -476,7 +476,6 @@ function initVoice()
       var phrase = $('#tags').val();
       $('#tags2').val( $('#tags').val());
       console.log($('#tags').val());
-
        // Play Music
         if (phrase.startsWithI(gPlayCommand))
         {
@@ -484,7 +483,18 @@ function initVoice()
         }
         // Teleport!
         else if (phrase.startsWithI(gTeleportCommand)) {
-          alert("teleporting to " + phrase.substr(6, phrase.length));
+          //alert("teleporting to " + phrase.substr(6, phrase.length));
+          var geocoder = new google.maps.Geocoder();
+          var address = phrase.substr(6, phrase.length);
+          //get the lat and long 
+          geocoder.geocode( {'address': address}, function(results, status){
+              console.log(status);
+              //teleport and move map
+              gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+              gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+
+              panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) );
+          });
         }
         // Stop Music
         else if (phrase.startsWithI(gStopCommand))
