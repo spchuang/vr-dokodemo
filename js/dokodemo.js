@@ -252,7 +252,7 @@ function initLeap()
     $('.selections').fadeIn();
   }
   leap.onFingerLeave = function(e){
-    $('.box').animate({height: 350, opacity:0.15});
+    $('.box').animate({height: 320, opacity:0.15});
     $('.selections').fadeOut();
   }
 

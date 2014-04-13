@@ -65,10 +65,10 @@ function getYelpResults() {
                  'cache':true, 
                 'jsonpCallback' : 'cb',
                 'success' : function(data, textStats, XMLHttpRequest) {
-                    for(i=0; i<5; i++) {
+                    for(var i=0; i<5; i++) {
                         var location = data.businesses[i].location.address;
                         var address = "";
-                        for (j=0; j<location.length;j++) {
+                        for (var j=0; j<location.length;j++) {
                             address = address + " " + location[j];
                         }
                         address = address + " " + data.businesses[i].location.city;
