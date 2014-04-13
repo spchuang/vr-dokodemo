@@ -517,12 +517,12 @@ var Hyperlapse = function(renderer, mesh, params) {
 				_point_index = _h_points.length-1;
 				_forward = !_forward;
 			}
-		} else {
+		} /*else {
 			if(--_point_index == -1) {
 				_point_index = 0;
 				_forward = !_forward;
 			}
-		}
+		}*/
 	};
 
 
