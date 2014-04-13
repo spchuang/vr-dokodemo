@@ -72,7 +72,7 @@ var LL = function(){
   controller.on( 'circle', function( circle, frame ) {
    
     if(circle.radius > 50){
-       console.log(circle);
+       //console.log(circle);
       if (circle.state == 'start' || circle.state == 'stop') {
       var curr = new Date().getTime() / 1000;
       if (circle.state == 'start' && curr - time > 0.6)
