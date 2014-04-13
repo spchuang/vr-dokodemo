@@ -25,6 +25,9 @@
         leap.onSwipeBackward = function(e){
           console.log(e);
         }
+        leap.onKeyTap = function(e) {
+          console.log(e);
+        }
     </script> */
 
 var LL = function(){
@@ -47,7 +50,7 @@ var LL = function(){
   controller.on( 'circle', function( circle, frame ) {
     if (circle.state == 'start' || circle.state == 'stop') {
       var curr = new Date().getTime() / 1000;
-      if (circle.state == 'start' && curr - time > 1.5)
+      if (circle.state == 'start' && curr - time > 0.6)
       {
         that.handleCircle({direction: 'circle'});
         time = new Date().getTime() / 1000;
@@ -57,6 +60,26 @@ var LL = function(){
     }
   });
 
+  //Screen Tap shitty right now fk it
+  //Screen Tap gesture event listener
+/*  controller.on('screenTap', function(screenTap, frame) {
+    var curr = new Date().getTime() / 1000;
+    if ((screenTap.state == 'start' || screenTap.state == 'stop')
+         && curr - time > 0.5){
+      that.handleScreenTap({direction: 'Screen Tap'});
+      time = new Date().getTime() / 1000;
+    }
+  });*/
+
+  //Key Tap gesture event listener
+  controller.on('keyTap', function(keyTap, frame) {
+    var curr = new Date().getTime() / 1000;
+    if ((keyTap.state == 'start' || keyTap.state == 'stop')
+         && curr - time > 0.5){
+      that.handleKeyTap({direction: 'Key Tap'});
+      time = new Date().getTime() / 1000;
+    }
+  });
 
   // Swipe gesture event listener
   controller.on( 'swipe', function( swipe, frame ) {
@@ -66,7 +89,7 @@ var LL = function(){
                  : dir[1] > 0.8 ? 'up'    : dir[1] < -0.8 ? 'down'
                  : dir[2] > 0.8 ? 'backward' : 'forward';
       var curr = new Date().getTime() / 1000;
-      if (swipe.state == 'start' &&  curr - time > 1.0)
+      if (swipe.state == 'start' &&  curr - time > 0.6)
       {
         if (dirStr == 'right')
           that.handleSwipeRight({direction: 'right'}); 
@@ -97,5 +120,7 @@ var LL = function(){
   this.handleSwipeForward = function (e) {if (this.onSwipeForward) this.onSwipeForward(e);};
   this.handleSwipeBackward = function (e) {if (this.onSwipeBackward) this.onSwipeBackward(e);};
   this.handleCircle = function (e) {if (this.onCircle) this.onCircle(e);};
+  //this.handleScreenTap = function (e) {if (this.onScreenTap) this.onScreenTap(e);};
+  this.handleKeyTap = function (e) {if (this.onKeyTap) this.onKeyTap(e);};
 
 };
