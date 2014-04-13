@@ -99,8 +99,8 @@ function getYelpResults() {
                             });
                         });
                     }
-                    gmap.setZoom(7);
-                    gmap2.setZoom(7);
+                    gmap.setZoom(10);
+                    gmap2.setZoom(10);
                     console.log(data);
                     //$("body").append(output);
                 }

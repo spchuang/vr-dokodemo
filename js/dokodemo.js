@@ -257,6 +257,7 @@ function initLeap()
   }
 
   leap.onSwipeLeft = function(e){
+    startListening();
     console.log(e);
   };
   leap.onSwipeUp = function(e){
@@ -682,7 +683,8 @@ function voiceFunctions(phrase) {
         else
         {
         }
-}
+  }
+  //recognition.start();
 
 function startListening() {
   $( "#desc1" ).fadeOut( "slow", function() {
