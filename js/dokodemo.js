@@ -231,6 +231,9 @@ function initLeap()
   leap.onCircle = function(e){
     console.log(e);
   };
+  leap.onKeyTap = function(e){
+    console.log(e);
+  };
 
 }
 
