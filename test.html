@@ -1,0 +1,38 @@
+<html>
+  <body>
+    <script type="text/javascript" src="https://js.leapmotion.com/0.2.2/leap.js"></script>
+    <link rel="stylesheet" type="text/css" href="test.css">
+    <script type="text/javascript" src="LL.js"></script>
+    <canvas id="canvas" width="850" height="690"></canvas>
+    <script>
+    		var leap = new LL();
+    		leap.onSwipeRight = function(e){
+    			console.log(e);
+    		};
+    		leap.onSwipeLeft = function(e){
+    			console.log(e);
+    		};
+    		leap.onSwipeUp = function(e){
+    			console.log(e);
+    		};
+    		leap.onSwipeDown = function(e){
+    			console.log(e);
+    		};
+    		leap.onCircle = function(e){
+    			console.log(e);
+    		};
+            leap.onSwipeForward = function(e){
+                console.log(e);
+            }
+            leap.onSwipeBackward = function(e){
+                console.log(e);
+            }
+            /*leap.onScreenTap = function(e) {
+                console.log(e);
+            }*/
+            leap.onKeyTap = function(e) {
+                console.log(e);
+            }
+    </script>
+  </body>
+</html>

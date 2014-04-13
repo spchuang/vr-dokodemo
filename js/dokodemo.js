@@ -528,11 +528,19 @@ function initVoice()
           geocoder.geocode( {'address': address}, function(results, status){
               console.log(status);
               //teleport and move map
-              gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
-              gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
-
-              panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) );
-          });
+              panoLoader.onNoPanoramaData = function(e){
+                  console.log('hit no panorama data');
+                  gmap.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
+                  gmap2.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
+              }
+              if (panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) ))
+                {
+                  gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+                  gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+                  CURRENT_LOCATION.lat = results[0].geometry.location.k;
+                  CURRENT_LOCATION.lng = results[0].geometry.location.A;
+                }
+           });
         }
         // Stop Music
         else if (phrase.startsWithI(gStopCommand))
