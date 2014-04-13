@@ -270,6 +270,7 @@ function initPano() {
     marker = new google.maps.Marker({ position: this.location.latLng, map: gmap });
     marker.setMap( gmap );
 
+    /*
     if (window.history) {
       var newUrl = '/oculusstreetview/?lat='+this.location.latLng.lat()+'&lng='+this.location.latLng.lng();
       newUrl += '&q='+QUALITY;
@@ -277,6 +278,7 @@ function initPano() {
       newUrl += '&heading='+currHeading;
       window.history.pushState('','',newUrl);
     }
+    */
   };
 }
 
@@ -446,6 +448,8 @@ function startTimelapse()
   });
 }
 
+
+
 $(document).ready(function() {
 
   // Read parameters
@@ -464,6 +468,7 @@ $(document).ready(function() {
   
   initWebGL();
   initHyperlapse();
+
   initControls();
   initLeap();
   initPano();

@@ -30,17 +30,20 @@
         <script type="text/javascript" src="js/yelp.js"></script>
         
         <!-- Voice Search API Required JS -->
+        <!--
         <script type="text/javascript" src="js/search.js"></script>
-        <script type="text/javascript" src="/js/async.min.js"></script>
-        <SCRIPT type="text/javascript" src="/js/soundex.js" /></SCRIPT>
-        <SCRIPT type="text/javascript" src="/js/levenshtein.js" /></SCRIPT>
-        <SCRIPT type="text/javascript" src="/js/softcompare.js" /></SCRIPT>
-        <SCRIPT type="text/javascript" src="/js/swfobject.js"></SCRIPT> 
+        <script type="text/javascript" src="js/async.min.js"></script>
+        <SCRIPT type="text/javascript" src="js/soundex.js" /></SCRIPT>
+        <SCRIPT type="text/javascript" src="js/levenshtein.js" /></SCRIPT>
+        <SCRIPT type="text/javascript" src="js/softcompare.js" /></SCRIPT>
+        !-->
+        <SCRIPT type="text/javascript" src="js/swfobject.js"></SCRIPT> 
 
          <script type="text/javascript" src="js/dokodemo.js"></script>
          <script type="text/javascript">
         function init() {
-            prepareSpeech();
+            console.log("THIS IS SPEECH");
+            //prepareSpeech();
         }
         </script>
     </head>
@@ -90,7 +93,10 @@
                         <br>
                         <table>
                             <tr>
-                            <td width="50px"> <input class="speechInput" name="speechInput1" id="speechInput1" size=64 type="text" x-webkit-speech /> </td>
+
+                            <td width="50px"> 
+                                <input class="speechInput1" name="speechInput1" id="speechInput1" size=64 type="text" x-webkit-speech />
+                            </td>
 
                             <td>
                               Stuff you can try ...<br>
