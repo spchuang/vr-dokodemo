@@ -577,7 +577,6 @@ function initVoice()
 */
 }
 
-
 function startListening() {
   recognition.start();
 }
