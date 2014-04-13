@@ -449,6 +449,27 @@ function startTimelapse()
 }
 
 
+function initVoice()
+{
+  console.log("init voice");
+  /*
+  var voiceInput = $("#speechInput1");
+  voiceInput.on('webkitspeechchange', function() {
+      console.log("You have spoken");
+  });
+  voiceInput[0].onwebkitspeechchange = function(){
+
+    console.log("FUCK");
+  }
+  console.log(voiceInput);
+  */
+
+  $('#speechInput1').on('webkitspeechchange', function() {
+      alert("FUCK");
+
+  });
+
+}
 
 $(document).ready(function() {
 
@@ -474,6 +495,7 @@ $(document).ready(function() {
   initPano();
 
   initGoogleMap();
+  initVoice();
 
   $(document).keydown(function(e){
     switch(e.keyCode) {
