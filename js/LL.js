@@ -31,26 +31,8 @@
     </script> */
 
 var LL = function(){
-  var that= this;
-  // Get the canvas element from the HTML document
-  var canvas = document.getElementById( 'canvas' );
-  // Get the canvas context to draw with
-  var ctx = canvas.getContext( '2d' );
-  // Get the canvas width and height for scaling
-  var width  = canvas.width,
-      height = canvas.height;
-
-  var time = new Date().getTime() / 1000;
-
-  // Transform Leap coordinates to scene coordinates
-  //   leapPosition is a [ x, y, z ] array
-  //   returns a [ x, y ] array
-  function leapToScene( leapPosition, leapScalar ) {
-    var canvasPos = [ 0, 0 ];
-    canvasPos[0] = width/2 + leapPosition[0];
-    canvasPos[1] = height  - leapPosition[1];
-    return canvasPos;
-  };
+  var that= this,
+      time = new Date().getTime() / 1000;
 
   // Create a Leap controller so we can emit gesture events
   var controller = new Leap.Controller( { enableGestures: true } );
