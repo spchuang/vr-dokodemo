@@ -24,7 +24,7 @@ function getYelpResults() {
             };
 
             var terms = 'food';
-            var ll = '37.788022,-122.399797';
+            var ll = CURRENT_LOCATION.lat + ',' + CURRENT_LOCATION.lng;
 
             var accessor = {
                 consumerSecret : auth.consumerSecret,
@@ -65,18 +65,42 @@ function getYelpResults() {
                  'cache':true, 
                 'jsonpCallback' : 'cb',
                 'success' : function(data, textStats, XMLHttpRequest) {
-                    for(i=0; i<5; i++) {
+                    for(var i=0; i<5; i++) {
                         var location = data.businesses[i].location.address;
                         var address = "";
-                        for (j=0; j<location.length;j++) {
+                        for (var j=0; j<location.length;j++) {
                             address = address + " " + location[j];
                         }
                         address = address + " " + data.businesses[i].location.city;
                         console.log(address);
                         console.log(data.businesses[i].location.city);
+
                         $("#desc1").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
                         $("#desc2").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
+
+                        geocoder.geocode( {'address': address}, function(results, status){
+                            console.log(status);
+                            //teleport and move map
+
+                            var lat = results[0].geometry.location.k;
+                            var lon = results[0].geometry.location.A;
+                            var myLatlng = new google.maps.LatLng(lat, lon);
+
+                            var marker = new google.maps.Marker({
+                                position: myLatlng,
+                                map: gmap,
+                                title: data.businesses[i].name
+                            });
+
+                            var marker2 = new google.maps.Marker({
+                                position: myLatlng,
+                                map: gmap2,
+                                title: data.businesses[i].name
+                            });
+                        });
                     }
+                    gmap.setZoom(7);
+                    gmap2.setZoom(7);
                     console.log(data);
                     //$("body").append(output);
                 }
