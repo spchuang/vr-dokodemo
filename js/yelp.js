@@ -49,15 +49,20 @@ function getYelpResults() {
             OAuth.SignatureMethod.sign(message, accessor);
 
             var parameterMap = OAuth.getParameterMap(message.parameters);
+            parameterMap.oauth_signature = OAuth.percentEncode(parameterMap.oauth_signature)
             console.log(parameterMap);
 
             $("#desc1").append("Interesting places to go: <br><br>");
             $("#desc2").append("Interesting places to go: <br><br>");
 
+            //have my JSON object, do whatever we want here, like add to spreadsheets
+
             $.ajax({
                 'url' : message.action,
+                'contentType': "application/json; charset=utf-8",
                 'data' : parameterMap,
                 'dataType' : 'jsonp',
+                 'cache':true, 
                 'jsonpCallback' : 'cb',
                 'success' : function(data, textStats, XMLHttpRequest) {
                     for(i=0; i<5; i++) {
