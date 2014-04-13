@@ -39,6 +39,7 @@ var LL = function(){
 
   // Emit gesture events before emitting frame events
   controller.addStep( function( frame ) {
+    console.log(frame);
     for ( var g = 0; g < frame.gestures.length; g++ ) {
       var gesture = frame.gestures[g];
       controller.emit( gesture.type, gesture, frame );
@@ -113,6 +114,7 @@ var LL = function(){
   // Start listening for frames
   controller.connect();
 
+  this.actionDetect   = function(e) {if(this.actionDetect) this.actionDetect(e);};
   this.handleSwipeRight = function (e) {if (this.onSwipeRight) this.onSwipeRight(e);};
   this.handleSwipeLeft = function (e) {if (this.onSwipeLeft) this.onSwipeLeft(e);};
   this.handleSwipeUp = function (e) {if (this.onSwipeUp) this.onSwipeUp(e);};
