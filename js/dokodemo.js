@@ -578,6 +578,10 @@ function initVoice()
 }
 
 
+function startListening() {
+  recognition.start();
+}
+
 $(document).ready(function() {
 
   // Read parameters
