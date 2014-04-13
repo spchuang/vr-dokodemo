@@ -248,10 +248,12 @@ function initLeap()
     moveToNextPlace();
   };
   leap.onFingerEnter = function(e){
-    $('.box').animate({opacity:0.8});
+    $('.box').animate({height:450, opacity:0.8});
+    $('.selections').animate({opacity:0.8});
   }
   leap.onFingerLeave = function(e){
-    $('.box').animate({opacity:0.15});
+    $('.box').animate({height: 350, opacity:0.15});
+    $('.selections').animate({opacity:0});
   }
 
   leap.onSwipeLeft = function(e){
