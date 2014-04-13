@@ -636,6 +636,15 @@ function initVoice()
                     CURRENT_LOCATION.lat = 41.890136;
                     CURRENT_LOCATION.lng = 12.490971;
           } 
+          else if (address == 'Origin'){
+            panoLoader.load( new google.maps.LatLng(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng) )
+                    gmap.panTo(new google.maps.LatLng(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng));
+                    gmap2.panTo(new google.maps.LatLng(DEFAULT_LOCATION.lat, DEFAULT_LOCATION.lng));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = DEFAULT_LOCATION.lat;
+                    CURRENT_LOCATION.lng = DEFAULT_LOCATION.lng;
+          }
           else {
             var geocoder = new google.maps.Geocoder();
             geocoder.geocode( {'address': address}, function(results, status){
