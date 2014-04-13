@@ -456,8 +456,10 @@ function initHyperlapse(finalDestination)
 
 function startTimelapse(currentLocation, finalDestination) //huehuehuehuehue
 {
-  console.log("TEST");
-  
+  console.log("start time lapse");
+  hyperlapse.setLookat(finalDestination);
+  hyperlapse.reset();
+
   // Google Maps API stuff here...
   var directions_service = new google.maps.DirectionsService();
 
@@ -538,7 +540,7 @@ $(document).ready(function() {
   initControls();
   initLeap();
   initPano();
-
+  initHyperlapse(NEXT_LOCATION[LOCATION_NUM]);
   initGoogleMap();
   initVoice();
 
@@ -546,7 +548,7 @@ $(document).ready(function() {
     if(LOCATION_NUM < MAX_LOCATIONS){
       switch(e.keyCode) {
         case 90: //90 is z
-          initHyperlapse(NEXT_LOCATION[LOCATION_NUM]);
+          
           startTimelapse(CURRENT_LOCATION, NEXT_LOCATION[LOCATION_NUM]);
           break;
       }
