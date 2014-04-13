@@ -71,7 +71,7 @@ var LL = function(){
   // Circle gesture event listener
   controller.on( 'circle', function( circle, frame ) {
    
-    if(circle.radius > 50){
+    if(circle.radius > 35){
        //console.log(circle);
       if (circle.state == 'start' || circle.state == 'stop') {
       var curr = new Date().getTime() / 1000;

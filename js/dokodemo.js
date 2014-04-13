@@ -277,6 +277,13 @@ function initLeap()
       $next = $radios.first();
     }
     $next.prop("checked", true);
+    var $radios1 = $('input[type="radio"][name="tploc1"]');
+    var $checked1 = $radios1.filter(':checked');
+    var $next1 = $radios1.eq($radios1.index($checked1) + 1);
+    if (!$next1.length){
+      $next1 = $radios1.first();
+    }
+    $next1.prop("checked", true);
     console.log(e);
   };
 
@@ -318,7 +325,7 @@ function initPano() {
 
     marker.setMap( null );
     marker = new google.maps.Marker({ position: this.location.latLng, map: gmap });
-    marker.setMap( gmap );
+    marker.setMap(gmap);
 
     /*
     if (window.history) {
@@ -566,7 +573,6 @@ function initVoice()
         //select the correct teleportdestination
         } else if (phrase.startsWithI(gSelectCommand)){
           var $radios = $('input[type="radio"][name="tploc"]');
-          var $radios = $('input[type="radio"][name="tploc1"]');
           var $checked = $radios.filter(':checked');
           var address = $radios.eq($radios.index($checked))[0].value;
           if (address == 'Las Vegas')
