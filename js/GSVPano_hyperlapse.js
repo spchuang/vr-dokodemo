@@ -53,7 +53,7 @@ GSVPANO_HYPERLAPSE.PanoLoader = function (parameters) {
 		//console.log({count:_count, total: _total});
 
 		var p = Math.round(_count * 100 / _total);
-		this.setProgress(p);
+		//this.setProgress(p);
 		
 		if (_count === _total) {
 			this.canvas = _canvas;
@@ -66,7 +66,7 @@ GSVPANO_HYPERLAPSE.PanoLoader = function (parameters) {
 
 	this.composePanorama = function (panoId) {
 	
-		this.setProgress(0);
+		//this.setProgress(0);
 		
 		var w = (_zoom==3) ? 7 : Math.pow(2, _zoom),
 			h = Math.pow(2, _zoom - 1),

@@ -63,6 +63,7 @@ gPlayCommand = "play";
 gTeleportCommand = "go";
 gStopCommand = "stop";
 gYelpCommand = "yelp";
+gSelectCommand = "select";
 
 // Utility function
 function angleRangeDeg(angle) {
@@ -246,6 +247,13 @@ function initLeap()
     console.log("move next");
     moveToNextPlace();
   };
+  leap.onFingerEnter = function(e){
+    $('.box').animate({opacity:0.8});
+  }
+  leap.onFingerLeave = function(e){
+    $('.box').animate({opacity:0.15});
+  }
+
   leap.onSwipeLeft = function(e){
     console.log(e);
   };
@@ -255,10 +263,20 @@ function initLeap()
   leap.onSwipeDown = function(e){
     console.log(e);
   };
+  //start google voice listening
   leap.onCircle = function(e){
+    startListening();
     console.log(e);
   };
+  //Toggle through the radio button options
   leap.onKeyTap = function(e){
+    var $radios = $('input[type="radio"][name="tploc"]');
+    var $checked = $radios.filter(':checked');
+    var $next = $radios.eq($radios.index($checked) + 1);
+    if (!$next.length){
+      $next = $radios.first();
+    }
+    $next.prop("checked", true);
     console.log(e);
   };
 
@@ -445,12 +463,10 @@ function initHyperlapse(finalDestination)
     };
 
     hyperlapse.onFrame = function(e) {
-      console.log(".");
-      for(var i = 0; i < 2300000; i++){};
+      for(var i = 0; i < 10000000; i++){};
     }
 
     hyperlapse.onRouteComplete = function(e) {
-      console.log("ROUTE COMPLETE");
       hyperlapse.load();
     };
 
@@ -462,7 +478,7 @@ function initHyperlapse(finalDestination)
     };
 
     hyperlapse.loader.onProgress = function( progress ) {
-      console.log(progress);
+     // console.log(progress);
       if (progress > 0) {
         progBar.visible = true;
         progBar.scale = new THREE.Vector3(progress/100.0,1,1);
@@ -547,7 +563,85 @@ function initVoice()
               CURRENT_LOCATION.lng = results[0].geometry.location.A;
                 
            });
+        //select the correct teleportdestination
+        } else if (phrase.startsWithI(gSelectCommand)){
+          var $radios = $('input[type="radio"][name="tploc"]');
+          var $radios = $('input[type="radio"][name="tploc1"]');
+          var $checked = $radios.filter(':checked');
+          var address = $radios.eq($radios.index($checked))[0].value;
+          if (address == 'Las Vegas')
+          {
+            panoLoader.load( new google.maps.LatLng( 36.120114, -115.172327) )
+                    gmap.panTo(new google.maps.LatLng(36.120114, -115.172327));
+                    gmap2.panTo(new google.maps.LatLng(36.120114, -115.172327));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = 36.120114;
+                    CURRENT_LOCATION.lng = -115.172327;
+          } else if (address == 'Space Needle'){
+            panoLoader.load( new google.maps.LatLng( 47.620155, -122.349347) )
+                    gmap.panTo(new google.maps.LatLng(47.620155, -122.349347));
+                    gmap2.panTo(new google.maps.LatLng(47.620155, -122.349347));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = 47.620155;
+                    CURRENT_LOCATION.lng = -122.349347;
+          } else if (address == 'Eiffel Tower'){
+             panoLoader.load( new google.maps.LatLng( 48.857413, 2.296235) )
+                    gmap.panTo(new google.maps.LatLng(48.857413, 2.296235));
+                    gmap2.panTo(new google.maps.LatLng(48.857413, 2.296235));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = 48.857413;
+                    CURRENT_LOCATION.lng = 2.296235;
+          } else if (address == 'Versailles'){
+            panoLoader.load( new google.maps.LatLng( 48.804902, 2.1196) )
+                    gmap.panTo(new google.maps.LatLng(48.804902, 2.1196));
+                    gmap2.panTo(new google.maps.LatLng(48.804902, 2.1196));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = 48.804902;
+                    CURRENT_LOCATION.lng = 2.1196;
+          } else if (address == 'Taj'){
+            panoLoader.load( new google.maps.LatLng(27.174303, 78.042229) )
+                    gmap.panTo(new google.maps.LatLng(27.174303, 78.042229));
+                    gmap2.panTo(new google.maps.LatLng(27.174303, 78.042229));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = 27.174303;
+                    CURRENT_LOCATION.lng = 78.042229;
+          } else if (address == 'Stone'){
+            panoLoader.load( new google.maps.LatLng(51.17889, -1.826215) )
+                    gmap.panTo(new google.maps.LatLng(51.17889, -1.826215));
+                    gmap2.panTo(new google.maps.LatLng(51.17889, -1.826215));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = 51.17889;
+                    CURRENT_LOCATION.lng = -1.826215;
+          } else if (address == 'Col'){
+            panoLoader.load( new google.maps.LatLng(41.890136, 12.490971) )
+                    gmap.panTo(new google.maps.LatLng(41.890136, 12.490971));
+                    gmap2.panTo(new google.maps.LatLng(41.890136, 12.490971));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = 41.890136;
+                    CURRENT_LOCATION.lng = 12.490971;
+          } 
+          else {
+            var geocoder = new google.maps.Geocoder();
+            geocoder.geocode( {'address': address}, function(results, status){
+                    console.log(status);
+                    //teleport and move map
+                    panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) )
+                    gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+                    gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+                    PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+                    PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+                    CURRENT_LOCATION.lat = results[0].geometry.location.k;
+                    CURRENT_LOCATION.lng = results[0].geometry.location.A;
+                 });
         }
+      }
         // Stop Music
         else if (phrase.startsWithI(gStopCommand))
         {

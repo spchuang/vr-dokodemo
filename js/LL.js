@@ -33,12 +33,34 @@
 var LL = function(){
   var that= this,
       time = new Date().getTime() / 1000;
+  var cumulate_state = 0;
+
+  var hasFingers = 'no';
 
   // Create a Leap controller so we can emit gesture events
   var controller = new Leap.Controller( { enableGestures: true } );
 
   // Emit gesture events before emitting frame events
   controller.addStep( function( frame ) {
+    cumulate_state++;
+
+    //if finger detected
+    if(frame.fingers.length){
+
+      if(hasFingers=='no' && cumulate_state>20){
+        hasFingers = 'yes';
+        cumulate_state=0;
+        that.fingerEnterHandle();
+      }
+    }else{
+      if(hasFingers=='yes' && cumulate_state>20){
+        hasFingers = 'no';
+        cumulate_state=0;
+        that.fingerLeaveHandle();
+      }
+    }
+    
+
     for ( var g = 0; g < frame.gestures.length; g++ ) {
       var gesture = frame.gestures[g];
       controller.emit( gesture.type, gesture, frame );
@@ -48,7 +70,10 @@ var LL = function(){
 
   // Circle gesture event listener
   controller.on( 'circle', function( circle, frame ) {
-    if (circle.state == 'start' || circle.state == 'stop') {
+   
+    if(circle.radius > 50){
+       //console.log(circle);
+      if (circle.state == 'start' || circle.state == 'stop') {
       var curr = new Date().getTime() / 1000;
       if (circle.state == 'start' && curr - time > 0.6)
       {
@@ -58,6 +83,9 @@ var LL = function(){
       //console.log(circle.state, circle.type, circle.id,
         //          'radius:', circle.radius);
     }
+
+    }
+    
   });
 
   //Screen Tap shitty right now fk it
@@ -113,6 +141,10 @@ var LL = function(){
   // Start listening for frames
   controller.connect();
 
+  this.fingerEnterHandle = function (e) {if (this.onFingerEnter) this.onFingerEnter(e);};
+  this.fingerLeaveHandle = function (e) {if (this.onFingerLeave) this.onFingerLeave(e);};
+
+  this.actionDetect = function (e) {if (this.onActionDetect) this.onActionDetect(e);};
   this.handleSwipeRight = function (e) {if (this.onSwipeRight) this.onSwipeRight(e);};
   this.handleSwipeLeft = function (e) {if (this.onSwipeLeft) this.onSwipeLeft(e);};
   this.handleSwipeUp = function (e) {if (this.onSwipeUp) this.onSwipeUp(e);};
