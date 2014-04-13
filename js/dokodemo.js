@@ -7,7 +7,16 @@
 // Parameters
 // ----------------------------------------------
 var QUALITY = 3;
-var DEFAULT_LOCATION = { 34.0722, 118.4441 };
+
+var DEFAULT_LOCATION = { lat: 34.072193, lng: -118.442164 };
+var CURRENT_LOCATION = DEFAULT_LOCATION;
+var NEXT_LOCATION = [ {lat:34.072242, lng:-118.439619}, 
+                      {lat:34.086148, lng:-118.454349},
+                      {lat:34.072242, lng:-118.439619},
+                      {lat:34.072193, lng:-118.442164},
+                      {lat:33.598689, lng:-117.882881}];
+var LOCATION_NUM = 0;
+var MAX_LOCATIONS = NEXT_LOCATION.length;
 var USE_TRACKER = false;
 var MOVING_MOUSE = false;
 var MOUSE_SPEED = 0.005;
@@ -41,6 +50,7 @@ var HMDRotation = new THREE.Quaternion();
 var BaseRotation = new THREE.Quaternion();
 var BaseRotationEuler = new THREE.Vector3();
 
+var recognition;
 var renderer, projSphere;
 var hyperlapse;
 var vr_state;
@@ -247,6 +257,9 @@ function initLeap()
   leap.onCircle = function(e){
     console.log(e);
   };
+  leap.onKeyTap = function(e){
+    console.log(e);
+  };
 
 }
 
@@ -414,10 +427,11 @@ function getParams() {
   return params;
 }
 
-function initHyperlapse()
+function initHyperlapse(finalDestination)
 {
     hyperlapse = new Hyperlapse(renderer, projSphere, {
-      lookat: new google.maps.LatLng(37.81409525128964,-122.4775045005249),
+      lookat: new google.maps.LatLng(finalDestination.lat,finalDestination.lng),
+
       zoom: 1,
       use_lookat: true,
       elevation: 50
@@ -426,6 +440,10 @@ function initHyperlapse()
     hyperlapse.onError = function(e) {
       console.log(e);
     };
+
+    hyperlapse.onFrame = function(e) {
+      for(var i = 0; i < 230000; i++);
+    }
 
     hyperlapse.onRouteComplete = function(e) {
       console.log("ROUTE COMPLETE");
@@ -440,23 +458,29 @@ function initHyperlapse()
 
 
 
-function startTimelapse()
+
+function startTimelapse(currentLocation, finalDestination) //huehuehuehuehue
 {
-  console.log("TEST");
-  
+  console.log("start time lapse");
+  hyperlapse.setLookat(finalDestination);
+  hyperlapse.reset();
+
   // Google Maps API stuff here...
   var directions_service = new google.maps.DirectionsService();
 
   var route = {
     request:{
-      origin: new google.maps.LatLng(37.816480000000006,-122.47825,37),
-      destination: new google.maps.LatLng(37.81195,-122.47773000000001),
+      origin: new google.maps.LatLng(currentLocation.lat,currentLocation.lng),
+      destination: new google.maps.LatLng(finalDestination.lat,finalDestination.lng),
       travelMode: google.maps.DirectionsTravelMode.DRIVING
     }
   };
 
   directions_service.route(route.request, function(response, status) {
     if (status == google.maps.DirectionsStatus.OK) {
+      CURRENT_LOCATION = finalDestination;
+      console.log(LOCATION_NUM);
+      LOCATION_NUM++;
       hyperlapse.generate( {route:response} );
     } else {
       console.log(status);
@@ -467,21 +491,30 @@ function startTimelapse()
 
 function initVoice()
 {
-  console.log("init voice");
-  $('#tags').on('webkitspeechchange', function(e) {
-      
-      var phrase = $('#tags').val();
-      $('#tags2').val( $('#tags').val());
-      console.log($('#tags').val());
+  recognition = new webkitSpeechRecognition();
+  recognition.onresult = function(event) { 
+    var phrase = event.results[0][0].transcript;
+    console.log(phrase);
 
-       // Play Music
+    // Play Music
         if (phrase.startsWithI(gPlayCommand))
         {
           apiswf.rdio_play($('#play_key').val());
         }
         // Teleport!
         else if (phrase.startsWithI(gTeleportCommand)) {
-          alert("teleporting to " + phrase.substr(6, phrase.length));
+          //alert("teleporting to " + phrase.substr(6, phrase.length));
+          var geocoder = new google.maps.Geocoder();
+          var address = phrase.substr(6, phrase.length);
+          //get the lat and long 
+          geocoder.geocode( {'address': address}, function(results, status){
+              console.log(status);
+              //teleport and move map
+              gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+              gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+
+              panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) );
+          });
         }
         // Stop Music
         else if (phrase.startsWithI(gStopCommand))
@@ -496,7 +529,20 @@ function initVoice()
         else
         {
         }
+  }
+  recognition.start();
+
+
+/*
+  console.log("init voice");
+  $('#tags').on('webkitspeechchange', function(e) {
+      
+      var phrase = $('#tags').val();
+      $('#tags2').val( $('#tags').val());
+      console.log($('#tags').val());
+       
   });
+*/
 }
 
 
@@ -517,21 +563,22 @@ $(document).ready(function() {
   WIDTH = window.innerWidth; HEIGHT = window.innerHeight;
   
   initWebGL();
-  initHyperlapse();
 
   initControls();
   initLeap();
   initPano();
-
+  initHyperlapse(NEXT_LOCATION[LOCATION_NUM]);
   initGoogleMap();
   initVoice();
 
   $(document).keydown(function(e){
-    switch(e.keyCode) {
-      case 90:
-        startTimelapse();
-        break;
-      
+    if(LOCATION_NUM < MAX_LOCATIONS){
+      switch(e.keyCode) {
+        case 90: //90 is z
+          
+          startTimelapse(CURRENT_LOCATION, NEXT_LOCATION[LOCATION_NUM]);
+          break;
+      }
     }
   });
   console.log('ok');
