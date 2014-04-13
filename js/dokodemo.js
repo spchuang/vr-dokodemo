@@ -7,8 +7,10 @@
 // Parameters
 // ----------------------------------------------
 var QUALITY = 3;
+
 var DEFAULT_LOCATION = { lat: 34.072193, lng: -118.442164 };
 var CURRENT_LOCATION = DEFAULT_LOCATION;
+var PREVIOUS_LOCATION = DEFAULT_LOCATION;
 var NEXT_LOCATION = [ {lat:34.072242, lng:-118.439619}, 
                       {lat:34.086148, lng:-118.454349},
                       {lat:34.072242, lng:-118.439619},
@@ -49,6 +51,7 @@ var HMDRotation = new THREE.Quaternion();
 var BaseRotation = new THREE.Quaternion();
 var BaseRotationEuler = new THREE.Vector3();
 
+var recognition;
 var renderer, projSphere;
 var hyperlapse;
 var vr_state;
@@ -513,13 +516,12 @@ function startTimelapse(currentLocation, finalDestination) //huehuehuehuehue
 
 function initVoice()
 {
-  console.log("init voice");
-  $('#tags').on('webkitspeechchange', function(e) {
-      
-      var phrase = $('#tags').val();
-      $('#tags2').val( $('#tags').val());
-      console.log($('#tags').val());
-       // Play Music
+  recognition = new webkitSpeechRecognition();
+  recognition.onresult = function(event) { 
+    var phrase = event.results[0][0].transcript;
+    console.log(phrase);
+
+    // Play Music
         if (phrase.startsWithI(gPlayCommand))
         {
           apiswf.rdio_play($('#play_key').val());
@@ -535,16 +537,20 @@ function initVoice()
               //teleport and move map
               panoLoader.onNoPanoramaData = function(e){
                   console.log('hit no panorama data');
+                  CURRENT_LOCATION.lat = PREVIOUS_LOCATION.lat;
+                  CURRENT_LOCATION.lng = PREVIOUS_LOCATION.lng;
                   gmap.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
                   gmap2.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
+              
               }
-              if (panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) ))
-                {
-                  gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
-                  gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
-                  CURRENT_LOCATION.lat = results[0].geometry.location.k;
-                  CURRENT_LOCATION.lng = results[0].geometry.location.A;
-                }
+              panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) )
+              gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+              gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+              PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+              PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+              CURRENT_LOCATION.lat = results[0].geometry.location.k;
+              CURRENT_LOCATION.lng = results[0].geometry.location.A;
+                
            });
         }
         // Stop Music
@@ -560,9 +566,26 @@ function initVoice()
         else
         {
         }
+  }
+  recognition.start();
+
+
+/*
+  console.log("init voice");
+  $('#tags').on('webkitspeechchange', function(e) {
+      
+      var phrase = $('#tags').val();
+      $('#tags2').val( $('#tags').val());
+      console.log($('#tags').val());
+       
   });
+*/
 }
 
+
+function startListening() {
+  recognition.start();
+}
 
 $(document).ready(function() {
 
