@@ -1,4 +1,13 @@
 function getYelpResults() {
+    $( "#desc1" ).fadeOut( "slow", function() {
+        $("#desc1").html("");
+     });
+
+    $( "#desc2" ).fadeOut( "slow", function() {
+        $("#desc2").html("");
+     });
+
+
     var auth = {
                 //
                 // Update with your auth tokens.
@@ -42,6 +51,9 @@ function getYelpResults() {
             var parameterMap = OAuth.getParameterMap(message.parameters);
             console.log(parameterMap);
 
+            $("#desc1").append("Interesting places to go: <br><br>");
+            $("#desc2").append("Interesting places to go: <br><br>");
+
             $.ajax({
                 'url' : message.action,
                 'data' : parameterMap,
@@ -57,10 +69,19 @@ function getYelpResults() {
                         address = address + " " + data.businesses[i].location.city;
                         console.log(address);
                         console.log(data.businesses[i].location.city);
-                        $("#yelp").append("<p>" + data.businesses[i].name+"</p>");
+                        $("#desc1").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
+                        $("#desc2").append("<p>" + data.businesses[i].name+"<br>\t" + address + "</p>");
                     }
                     console.log(data);
                     //$("body").append(output);
                 }
             });
+
+    $( "#desc1" ).fadeIn( "slow", function() {
+        // Animation complete.
+     });
+
+    $( "#desc2" ).fadeIn( "slow", function() {
+        // Animation complete.
+     });
 }

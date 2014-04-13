@@ -48,6 +48,10 @@ vr.load(function(error) {
   vr_state = new vr.State();
 });
 
+gPlayCommand = "play";
+gTeleportCommand = "go";
+gStopCommand = "stop";
+gYelpCommand = "yelp";
 
 // Utility function
 function angleRangeDeg(angle) {
@@ -77,6 +81,18 @@ function updateCameraRotation() {
   //console.log('HEAD', currHeading);
 }
 
+// Add a startsWith function to String() objects.
+String.prototype.startsWith = function(str)
+{
+    return(data.substr(0, str.length) === str);
+}
+
+
+// Case insensitive version of the above.
+String.prototype.startsWithI = function(str)
+{
+    return(this.toUpperCase().substr(0, str.length) === str.toUpperCase());
+}
 
 function initWebGL() {
   // create scene
@@ -457,11 +473,35 @@ function initVoice()
   console.log("init voice");
   $('#tags').on('webkitspeechchange', function(e) {
       
+      var phrase = $('#tags').val();
       $('#tags2').val( $('#tags').val());
       console.log($('#tags').val());
-  });
 
+       // Play Music
+        if (phrase.startsWithI(gPlayCommand))
+        {
+          apiswf.rdio_play($('#play_key').val());
+        }
+        // Teleport!
+        else if (phrase.startsWithI(gTeleportCommand)) {
+          alert("teleporting to " + phrase.substr(6, phrase.length));
+        }
+        // Stop Music
+        else if (phrase.startsWithI(gStopCommand))
+        {
+          apiswf.rdio_stop();
+        }
+        // Yelp Stuff
+        else if (phrase.startsWithI(gYelpCommand))
+        {
+          getYelpResults();
+        }
+        else
+        {
+        }
+  });
 }
+
 
 $(document).ready(function() {
 
