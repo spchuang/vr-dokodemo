@@ -263,12 +263,14 @@ function initPano() {
   panoLoader.setZoom(QUALITY);
 
   panoLoader.onProgress = function( progress ) {
+    console.log("onProgress");
     if (progress > 0) {
       progBar.visible = true;
       progBar.scale = new THREE.Vector3(progress/100.0,1,1);
     }
   };
   panoLoader.onPanoramaData = function( result ) {
+    console.log("onPanorama Data");
     progBarContainer.visible = true;
     progBar.visible = false;
   };
@@ -437,7 +439,8 @@ function initHyperlapse(finalDestination)
     };
 
     hyperlapse.onFrame = function(e) {
-      for(var i = 0; i < 230000; i++);
+      console.log(".");
+      for(var i = 0; i < 2300000; i++){};
     }
 
     hyperlapse.onRouteComplete = function(e) {
@@ -447,8 +450,24 @@ function initHyperlapse(finalDestination)
 
     hyperlapse.onLoadComplete = function(e) {
       console.log(" onLoadComplete");
+      progBarContainer.visible = false;
+      progBar.visible = false;
       hyperlapse.play();
     };
+
+    hyperlapse.loader.onProgress = function( progress ) {
+      console.log(progress);
+      if (progress > 0) {
+        progBar.visible = true;
+        progBar.scale = new THREE.Vector3(progress/100.0,1,1);
+      }
+    };
+    hyperlapse.loader.onPanoramaData = function( result ) {
+      //console.log("on hyperlapse Panorama Data");
+      progBarContainer.visible = true;
+      progBar.visible = false;
+    };
+
 }
 
 
@@ -548,7 +567,6 @@ $(document).ready(function() {
     if(LOCATION_NUM < MAX_LOCATIONS){
       switch(e.keyCode) {
         case 90: //90 is z
-          
           startTimelapse(CURRENT_LOCATION, NEXT_LOCATION[LOCATION_NUM]);
           break;
       }

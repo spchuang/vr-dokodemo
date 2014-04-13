@@ -16,12 +16,18 @@ body {
   left: 0;
 }
 
+.box{
+  opacity:0.3;
+}
+
 #map {
   height: 150px;
+  opacity: 40%;
 }
 
 #map2 {
   height: 150px;
+  opacity: 40%;
 }
 
 .speechInput
