@@ -223,6 +223,9 @@ var Hyperlapse = function(renderer, mesh, params) {
 		context.drawImage(this.canvas, 0, 0);
 
 		_h_points[_point_index].image = canvas;
+		_loader.onProgress(50+   (_point_index*100/(_raw_points.length*2)));
+
+
 
 		if(++_point_index != _h_points.length) {
 			handleLoadProgress( {position:_point_index} );
@@ -272,7 +275,7 @@ var Hyperlapse = function(renderer, mesh, params) {
 	 * @param {Object} e
  	 * @param {HyperlapsePoint} e.point
 	 */
-	var handleRouteProgress = function (e) { if (self.onRouteProgress) self.onRouteProgress(e); };
+	var handleRouteProgress = function (e) {if (self.onRouteProgress) self.onRouteProgress(e); };
 
 	/**
 	 * @event Hyperlapse#onRouteComplete
@@ -316,6 +319,8 @@ var Hyperlapse = function(renderer, mesh, params) {
 	};
 
 	var parsePoints = function(response) {
+		//console.log(_raw_points.length);
+		_loader.onProgress(_point_index*100/(_raw_points.length*2));
 
 		_loader.load( _raw_points[_point_index], function() {
 
@@ -514,8 +519,8 @@ var Hyperlapse = function(renderer, mesh, params) {
 	// animates the playhead forward or backward depending on direction
 	var loop = function() {
 		drawMaterial();
-		console.log(_point_index);
-		console.log(_h_points.length);
+		//console.log(_point_index);
+		//console.log(_h_points.length);
 		if(_forward) {
 			if(++_point_index == _h_points.length) {
 				_point_index = _h_points.length-1;

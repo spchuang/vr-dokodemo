@@ -449,12 +449,10 @@ function initHyperlapse(finalDestination)
     };
 
     hyperlapse.onFrame = function(e) {
-      console.log(".");
-      for(var i = 0; i < 2300000; i++){};
+      for(var i = 0; i < 10000000; i++){};
     }
 
     hyperlapse.onRouteComplete = function(e) {
-      console.log("ROUTE COMPLETE");
       hyperlapse.load();
     };
 
@@ -466,7 +464,7 @@ function initHyperlapse(finalDestination)
     };
 
     hyperlapse.loader.onProgress = function( progress ) {
-      console.log(progress);
+     // console.log(progress);
       if (progress > 0) {
         progBar.visible = true;
         progBar.scale = new THREE.Vector3(progress/100.0,1,1);
