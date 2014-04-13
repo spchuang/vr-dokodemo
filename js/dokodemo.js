@@ -257,6 +257,7 @@ function initLeap()
   }
 
   leap.onSwipeLeft = function(e){
+    startListening();
     console.log(e);
   };
   leap.onSwipeUp = function(e){
@@ -664,7 +665,7 @@ function initVoice()
         {
         }
   }
-  recognition.start();
+  //recognition.start();
 
 
 /*
