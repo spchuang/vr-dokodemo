@@ -48,6 +48,7 @@
     </head>
 
     <body >
+
         <div id="viewer" style="z-index: -1"></div>
         <div class="row-fluid" style="margin-top: 20px;opacity:0.7;">
             <div id="mapcontainer" class="span4 offset2 well">
@@ -61,7 +62,10 @@
                             <br>
                             <table>
                             <tr>
-                            <td width="50px"> <input class="speechInput1" name="speechInput1" id="speechInput1" size=64 type="text" x-webkit-speech /> </td>
+                            <td width="50px"> 
+                                <input id="tags2" x-webkit-speech="x-webkit-speech" />
+
+                            </td>
 
                             <td>
                               Stuff you can try ...<br>
@@ -94,7 +98,7 @@
                             <tr>
 
                             <td width="50px"> 
-                                <input class="speechInput1" id="speechInput1" size=64 x-webkit-speech="x-webkit-speech" />
+                                <input id="tags" x-webkit-speech="x-webkit-speech" />
                                
                             </td>
 
