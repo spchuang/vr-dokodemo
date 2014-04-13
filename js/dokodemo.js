@@ -249,11 +249,11 @@ function initLeap()
   };
   leap.onFingerEnter = function(e){
     $('.box').animate({height:450, opacity:0.8});
-    $('.selections').animate({opacity:0.8});
+    $('.selections').fadeIn();
   }
   leap.onFingerLeave = function(e){
     $('.box').animate({height: 350, opacity:0.15});
-    $('.selections').animate({opacity:0});
+    $('.selections').fadeOut();
   }
 
   leap.onSwipeLeft = function(e){
