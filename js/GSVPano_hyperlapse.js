@@ -50,7 +50,8 @@ GSVPANO_HYPERLAPSE.PanoLoader = function (parameters) {
 	
 		_ctx.drawImage(texture, x * 512, y * 512);
 		_count++;
-		
+		//console.log({count:_count, total: _total});
+
 		var p = Math.round(_count * 100 / _total);
 		this.setProgress(p);
 		

@@ -10,6 +10,7 @@ var QUALITY = 3;
 
 var DEFAULT_LOCATION = { lat: 34.072193, lng: -118.442164 };
 var CURRENT_LOCATION = DEFAULT_LOCATION;
+var PREVIOUS_LOCATION = DEFAULT_LOCATION;
 var NEXT_LOCATION = [ {lat:34.072242, lng:-118.439619}, 
                       {lat:34.086148, lng:-118.454349},
                       {lat:34.072242, lng:-118.439619},
@@ -268,12 +269,14 @@ function initPano() {
   panoLoader.setZoom(QUALITY);
 
   panoLoader.onProgress = function( progress ) {
+    console.log("onProgress");
     if (progress > 0) {
       progBar.visible = true;
       progBar.scale = new THREE.Vector3(progress/100.0,1,1);
     }
   };
   panoLoader.onPanoramaData = function( result ) {
+    console.log("onPanorama Data");
     progBarContainer.visible = true;
     progBar.visible = false;
   };
@@ -442,7 +445,8 @@ function initHyperlapse(finalDestination)
     };
 
     hyperlapse.onFrame = function(e) {
-      for(var i = 0; i < 230000; i++);
+      console.log(".");
+      for(var i = 0; i < 2300000; i++){};
     }
 
     hyperlapse.onRouteComplete = function(e) {
@@ -452,8 +456,24 @@ function initHyperlapse(finalDestination)
 
     hyperlapse.onLoadComplete = function(e) {
       console.log(" onLoadComplete");
+      progBarContainer.visible = false;
+      progBar.visible = false;
       hyperlapse.play();
     };
+
+    hyperlapse.loader.onProgress = function( progress ) {
+      console.log(progress);
+      if (progress > 0) {
+        progBar.visible = true;
+        progBar.scale = new THREE.Vector3(progress/100.0,1,1);
+      }
+    };
+    hyperlapse.loader.onPanoramaData = function( result ) {
+      //console.log("on hyperlapse Panorama Data");
+      progBarContainer.visible = true;
+      progBar.visible = false;
+    };
+
 }
 
 
@@ -510,11 +530,23 @@ function initVoice()
           geocoder.geocode( {'address': address}, function(results, status){
               console.log(status);
               //teleport and move map
+              panoLoader.onNoPanoramaData = function(e){
+                  console.log('hit no panorama data');
+                  CURRENT_LOCATION.lat = PREVIOUS_LOCATION.lat;
+                  CURRENT_LOCATION.lng = PREVIOUS_LOCATION.lng;
+                  gmap.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
+                  gmap2.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
+              
+              }
+              panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) )
               gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
               gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
-
-              panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) );
-          });
+              PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+              PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+              CURRENT_LOCATION.lat = results[0].geometry.location.k;
+              CURRENT_LOCATION.lng = results[0].geometry.location.A;
+                
+           });
         }
         // Stop Music
         else if (phrase.startsWithI(gStopCommand))
@@ -575,7 +607,6 @@ $(document).ready(function() {
     if(LOCATION_NUM < MAX_LOCATIONS){
       switch(e.keyCode) {
         case 90: //90 is z
-          
           startTimelapse(CURRENT_LOCATION, NEXT_LOCATION[LOCATION_NUM]);
           break;
       }

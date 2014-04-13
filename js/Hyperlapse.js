@@ -208,7 +208,9 @@ var Hyperlapse = function(renderer, mesh, params) {
 
 	//_container.appendChild( _renderer.domElement );
 	*/
+
 	_loader = new GSVPANO_HYPERLAPSE.PanoLoader( {zoom: _zoom} );
+	self.loader = _loader;
 	_loader.onError = function(message) {
 		handleError({message:message});
 	};
@@ -234,6 +236,7 @@ var Hyperlapse = function(renderer, mesh, params) {
 			handleLoadComplete( {} );
 		}
 	};
+
 
 	/**
 	 * @event Hyperlapse#onLoadCanceled
@@ -505,24 +508,27 @@ var Hyperlapse = function(renderer, mesh, params) {
 		}
 
 		requestAnimationFrame( animate );
-		render();
+		//render();
 	};
 
 	// animates the playhead forward or backward depending on direction
 	var loop = function() {
 		drawMaterial();
-
+		console.log(_point_index);
+		console.log(_h_points.length);
 		if(_forward) {
 			if(++_point_index == _h_points.length) {
 				_point_index = _h_points.length-1;
 				_forward = !_forward;
 			}
-		} /*else {
+		} else {
+			/*
 			if(--_point_index == -1) {
 				_point_index = 0;
 				_forward = !_forward;
-			}
-		}*/
+			}*/
+			return;
+		}
 	};
 
 
