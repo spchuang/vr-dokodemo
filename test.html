@@ -2,10 +2,16 @@
   <body>
     <script type="text/javascript" src="https://js.leapmotion.com/0.2.2/leap.js"></script>
     <link rel="stylesheet" type="text/css" href="test.css">
-    <script type="text/javascript" src="LL.js"></script>
+    <script type="text/javascript" src="js/LL.js"></script>
     <canvas id="canvas" width="850" height="690"></canvas>
     <script>
     		var leap = new LL();
+            leap.onFingerEnter = function(e){
+                console.log("finger enters");
+            }
+            leap.onFingerLeave = function(e){
+                console.log("finger leaves");
+            }
     		leap.onSwipeRight = function(e){
     			console.log(e);
     		};

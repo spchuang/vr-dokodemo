@@ -243,6 +243,13 @@ function initLeap()
     console.log("move next");
     moveToNextPlace();
   };
+  leap.onFingerEnter = function(e){
+    $('.box').animate({opacity:0.8});
+  }
+  leap.onFingerLeave = function(e){
+    $('.box').animate({opacity:0.15});
+  }
+
   leap.onSwipeLeft = function(e){
     console.log(e);
   };
