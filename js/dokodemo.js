@@ -9,6 +9,7 @@
 var QUALITY = 3;
 var DEFAULT_LOCATION = { lat: 34.072193, lng: -118.442164 };
 var CURRENT_LOCATION = DEFAULT_LOCATION;
+var PREVIOUS_LOCATION = DEFAULT_LOCATION;
 var NEXT_LOCATION = [ {lat:34.072242, lng:-118.439619}, 
                       {lat:34.086148, lng:-118.454349},
                       {lat:34.072242, lng:-118.439619},
@@ -530,16 +531,20 @@ function initVoice()
               //teleport and move map
               panoLoader.onNoPanoramaData = function(e){
                   console.log('hit no panorama data');
+                  CURRENT_LOCATION.lat = PREVIOUS_LOCATION.lat;
+                  CURRENT_LOCATION.lng = PREVIOUS_LOCATION.lng;
                   gmap.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
                   gmap2.panTo(new google.maps.LatLng(CURRENT_LOCATION.lat, CURRENT_LOCATION.lng));
+              
               }
-              if (panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) ))
-                {
-                  gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
-                  gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
-                  CURRENT_LOCATION.lat = results[0].geometry.location.k;
-                  CURRENT_LOCATION.lng = results[0].geometry.location.A;
-                }
+              panoLoader.load( new google.maps.LatLng( results[0].geometry.location.k, results[0].geometry.location.A) )
+              gmap.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+              gmap2.panTo(new google.maps.LatLng(results[0].geometry.location.k, results[0].geometry.location.A));
+              PREVIOUS_LOCATION.lat = CURRENT_LOCATION.lat;
+              PREVIOUS_LOCATION.lng = CURRENT_LOCATION.lng;
+              CURRENT_LOCATION.lat = results[0].geometry.location.k;
+              CURRENT_LOCATION.lng = results[0].geometry.location.A;
+                
            });
         }
         // Stop Music
