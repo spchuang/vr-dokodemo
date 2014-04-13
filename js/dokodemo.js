@@ -211,6 +211,27 @@ function initControls(){
 
 }
 
+function initLeap()
+{
+  var leap = new LL();
+  leap.onSwipeRight = function(e){
+    console.log(e);
+  };
+  leap.onSwipeLeft = function(e){
+    console.log(e);
+  };
+  leap.onSwipeUp = function(e){
+    console.log(e);
+  };
+  leap.onSwipeDown = function(e){
+    console.log(e);
+  };
+  leap.onCircle = function(e){
+    console.log(e);
+  };
+
+}
+
 function initPano() {
   panoLoader = new GSVPANO.PanoLoader();
   panoLoader.setZoom(QUALITY);
@@ -416,8 +437,9 @@ function initHyperlapse()
       }
     });
 */
-
 }
+
+
 
 function startTimelapse()
 {
@@ -462,6 +484,7 @@ $(document).ready(function() {
   initWebGL();
   initHyperlapse();
   initControls();
+  initLeap();
   initPano();
 
   initGoogleMap();
